@@ -1,18 +1,6 @@
 {
   "products": [
     {
-      "id": "2",
-      "name": "Bouquet de Girasoles",
-      "description": "Alegre bouquet de girasoles frescos que iluminarán cualquier espacio con su color y energía.",
-      "price": 280,
-      "image": "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=400&h=400&fit=crop",
-      "category": "siempre_disponible",
-      "visible": true,
-      "featured": true,
-      "badge": "",
-      "createdAt": "2024-01-02T00:00:00.000Z"
-    },
-    {
       "id": "3",
       "name": "Arreglo de Tulipanes",
       "description": "Hermoso arreglo de tulipanes de temporada en colores pastel, ideal para decorar el hogar o como regalo.",
