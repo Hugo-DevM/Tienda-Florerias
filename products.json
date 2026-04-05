@@ -11,6 +11,18 @@
       "featured": true,
       "badge": "Nuevo",
       "createdAt": "2026-04-05T16:32:06.329Z"
+    },
+    {
+      "id": "ff36a78d-f06f-406d-ac78-aa1ebd31e240",
+      "name": "Almendro",
+      "description": "Almendro 100% natural",
+      "price": 300,
+      "image": "https://res.cloudinary.com/dsqzm6bkn/image/upload/v1775408812/floreria/e1pyoormsjsgrjnvl6ef.jpg",
+      "category": "sobre_pedido",
+      "visible": true,
+      "featured": true,
+      "badge": "",
+      "createdAt": "2026-04-05T17:07:35.137Z"
     }
   ]
 }
