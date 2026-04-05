@@ -1,0 +1,76 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Ramo de Rosas Rojas",
+      "description": "Elegante ramo de 12 rosas rojas frescas, perfecto para expresar amor y pasión. Incluye follaje decorativo y papel kraft.",
+      "price": 350,
+      "image": "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=400&h=400&fit=crop",
+      "category": "siempre_disponible",
+      "visible": true,
+      "featured": true,
+      "badge": "Más vendido",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "Bouquet de Girasoles",
+      "description": "Alegre bouquet de girasoles frescos que iluminarán cualquier espacio con su color y energía.",
+      "price": 280,
+      "image": "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=400&h=400&fit=crop",
+      "category": "siempre_disponible",
+      "visible": true,
+      "featured": true,
+      "badge": "",
+      "createdAt": "2024-01-02T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "name": "Arreglo de Tulipanes",
+      "description": "Hermoso arreglo de tulipanes de temporada en colores pastel, ideal para decorar el hogar o como regalo.",
+      "price": 320,
+      "image": "https://images.unsplash.com/photo-1520763185298-1b434c919102?w=400&h=400&fit=crop",
+      "category": "temporada",
+      "visible": true,
+      "featured": true,
+      "badge": "Temporada",
+      "createdAt": "2024-01-03T00:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "name": "Corona Fúnebre Clásica",
+      "description": "Corona fúnebre elaborada con flores blancas y verdes, símbolo de respeto y paz. Diseño personalizado.",
+      "price": 800,
+      "image": "https://images.unsplash.com/photo-1562690868-60bbe7293e94?w=400&h=400&fit=crop",
+      "category": "sobre_pedido",
+      "visible": true,
+      "featured": false,
+      "badge": "Pedido",
+      "createdAt": "2024-01-04T00:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "name": "Bouquet Romántico Mixto",
+      "description": "Exquisito bouquet con rosas, lisianthus y peonías. Colores suaves en tonos rosa y blanco.",
+      "price": 420,
+      "image": "https://images.unsplash.com/photo-1490750967868-88df5691cc42?w=400&h=400&fit=crop",
+      "category": "siempre_disponible",
+      "visible": true,
+      "featured": false,
+      "badge": "Nuevo",
+      "createdAt": "2024-01-05T00:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "name": "Centro de Mesa Nupcial",
+      "description": "Elegante centro de mesa para bodas con rosas blancas, hortensias y eucalipto. Pedido mínimo de 5 piezas.",
+      "price": 650,
+      "image": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop",
+      "category": "sobre_pedido",
+      "visible": true,
+      "featured": false,
+      "badge": "Boda",
+      "createdAt": "2024-01-06T00:00:00.000Z"
+    }
+  ]
+}
