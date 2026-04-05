@@ -1,3 +1,16 @@
 {
-  "products": []
+  "products": [
+    {
+      "id": "f3a96b47-9dbb-4756-ae72-cf4c1ab91299",
+      "name": "Ramo Buchon",
+      "description": "Ramo de rosas para este 14 de febrero",
+      "price": 2000,
+      "image": "https://res.cloudinary.com/dsqzm6bkn/image/upload/v1775406696/floreria/i11zx7w6u8w1hpqiqoau.webp",
+      "category": "siempre_disponible",
+      "visible": true,
+      "featured": true,
+      "badge": "Nuevo",
+      "createdAt": "2026-04-05T16:32:06.329Z"
+    }
+  ]
 }
