@@ -1,18 +1,6 @@
 {
   "products": [
     {
-      "id": "3",
-      "name": "Arreglo de Tulipanes",
-      "description": "Hermoso arreglo de tulipanes de temporada en colores pastel, ideal para decorar el hogar o como regalo.",
-      "price": 320,
-      "image": "https://images.unsplash.com/photo-1520763185298-1b434c919102?w=400&h=400&fit=crop",
-      "category": "temporada",
-      "visible": true,
-      "featured": true,
-      "badge": "Temporada",
-      "createdAt": "2024-01-03T00:00:00.000Z"
-    },
-    {
       "id": "4",
       "name": "Corona Fúnebre Clásica",
       "description": "Corona fúnebre elaborada con flores blancas y verdes, símbolo de respeto y paz. Diseño personalizado.",
