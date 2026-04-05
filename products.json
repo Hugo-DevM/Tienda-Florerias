@@ -1,18 +1,6 @@
 {
   "products": [
     {
-      "id": "1",
-      "name": "Ramo de Rosas Rojas",
-      "description": "Elegante ramo de 12 rosas rojas frescas, perfecto para expresar amor y pasión. Incluye follaje decorativo y papel kraft.",
-      "price": 350,
-      "image": "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=400&h=400&fit=crop",
-      "category": "siempre_disponible",
-      "visible": true,
-      "featured": true,
-      "badge": "Más vendido",
-      "createdAt": "2024-01-01T00:00:00.000Z"
-    },
-    {
       "id": "2",
       "name": "Bouquet de Girasoles",
       "description": "Alegre bouquet de girasoles frescos que iluminarán cualquier espacio con su color y energía.",
