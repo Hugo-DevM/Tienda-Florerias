@@ -1,18 +1,6 @@
 {
   "products": [
     {
-      "id": "4",
-      "name": "Corona Fúnebre Clásica",
-      "description": "Corona fúnebre elaborada con flores blancas y verdes, símbolo de respeto y paz. Diseño personalizado.",
-      "price": 800,
-      "image": "https://images.unsplash.com/photo-1562690868-60bbe7293e94?w=400&h=400&fit=crop",
-      "category": "sobre_pedido",
-      "visible": true,
-      "featured": false,
-      "badge": "Pedido",
-      "createdAt": "2024-01-04T00:00:00.000Z"
-    },
-    {
       "id": "5",
       "name": "Bouquet Romántico Mixto",
       "description": "Exquisito bouquet con rosas, lisianthus y peonías. Colores suaves en tonos rosa y blanco.",
