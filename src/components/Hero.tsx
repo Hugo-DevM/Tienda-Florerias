@@ -25,8 +25,7 @@ export default function Hero() {
             >
               Una Diferente{" "}
               <span className="block mt-1">
-                Tienda de{" "}
-                <span className="text-pink-500 italic">Flores</span>
+                Tienda de <span className="text-pink-500 italic">Flores</span>
               </span>
               <span className="text-rose-600">en Línea</span>
             </h1>
@@ -64,7 +63,9 @@ export default function Hero() {
                 <div key={i} className="flex items-center gap-6">
                   {i > 0 && <div className="w-px h-10 bg-gray-200" />}
                   <div>
-                    <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {stat.value}
+                    </p>
                     <p className="text-gray-400 text-sm">{stat.label}</p>
                   </div>
                 </div>
@@ -77,7 +78,7 @@ export default function Hero() {
             <div className="relative h-[480px] sm:h-[540px]">
               {/* Main image */}
               <img
-                src="https://images.unsplash.com/photo-1487530811015-780f7b91b83f?w=540&h=540&fit=crop"
+                src="https://images.unsplash.com/photo-1738951171612-b1d02b4bbaed?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?w=540&h=540&fit=crop"
                 alt="Hermosos arreglos florales"
                 className="absolute inset-0 w-full h-full object-cover rounded-[2.5rem] shadow-2xl"
               />
@@ -86,7 +87,9 @@ export default function Hero() {
               <div className="absolute -bottom-5 -left-5 bg-white rounded-2xl px-5 py-3.5 shadow-xl border border-pink-50 flex items-center gap-3">
                 <span className="text-3xl">🚀</span>
                 <div>
-                  <p className="text-sm font-bold text-gray-800">Entrega a domicilio</p>
+                  <p className="text-sm font-bold text-gray-800">
+                    Entrega a domicilio
+                  </p>
                   <p className="text-xs text-gray-400">En toda la ciudad</p>
                 </div>
               </div>
@@ -95,7 +98,9 @@ export default function Hero() {
               <div className="absolute -top-4 -right-4 bg-white rounded-2xl px-5 py-3.5 shadow-xl border border-pink-50 flex items-center gap-3">
                 <span className="text-3xl">💐</span>
                 <div>
-                  <p className="text-sm font-bold text-gray-800">Flores frescas</p>
+                  <p className="text-sm font-bold text-gray-800">
+                    Flores frescas
+                  </p>
                   <p className="text-xs text-gray-400">Todos los días</p>
                 </div>
               </div>
@@ -107,8 +112,18 @@ export default function Hero() {
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-400 animate-bounce">
         <span className="text-xs uppercase tracking-widest">Descubre</span>
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </div>
     </section>

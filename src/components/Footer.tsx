@@ -77,7 +77,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/#contacto" className="hover:text-pink-400 transition-colors">
+                <a href="/contacto" className="hover:text-pink-400 transition-colors">
                   Contacto
                 </a>
               </li>

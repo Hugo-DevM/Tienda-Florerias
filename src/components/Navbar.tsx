@@ -1,12 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const { itemCount, toggleCart } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
+    const sections = ["categorias", "nosotros", "contacto"];
+    const observers: IntersectionObserver[] = [];
+
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(id);
+        },
+        { threshold: 0.4 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    // Si estamos al tope de la página, no marcar ninguna sección
+    const onScroll = () => {
+      if (window.scrollY < 100) setActiveSection("");
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      observers.forEach((o) => o.disconnect());
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [pathname]);
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
@@ -30,16 +66,31 @@ export default function Navbar() {
               { href: "/tienda", label: "Tienda" },
               { href: "/#categorias", label: "Categorías" },
               { href: "/#nosotros", label: "Nosotros" },
-              { href: "/#contacto", label: "Contacto" },
-            ].map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-gray-600 hover:text-pink-500 transition-colors font-medium text-sm"
-              >
-                {link.label}
-              </Link>
-            ))}
+              { href: "/contacto", label: "Contacto" },
+            ].map((link) => {
+              const sectionId = link.href.includes("#") ? link.href.split("#")[1] : null;
+              const isActive = sectionId
+                ? activeSection === sectionId
+                : link.href === "/"
+                ? pathname === "/" && !activeSection
+                : pathname.startsWith(link.href) && link.href !== "/";
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative font-medium text-sm transition-colors ${
+                    isActive
+                      ? "text-pink-500"
+                      : "text-gray-600 hover:text-pink-500"
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-pink-500 rounded-full" />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right icons */}
@@ -76,17 +127,29 @@ export default function Navbar() {
               { href: "/tienda", label: "Tienda" },
               { href: "/#categorias", label: "Categorías" },
               { href: "/#nosotros", label: "Nosotros" },
-              { href: "/#contacto", label: "Contacto" },
-            ].map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="block px-4 py-2.5 text-gray-600 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+              { href: "/contacto", label: "Contacto" },
+            ].map((link) => {
+              const sectionId = link.href.includes("#") ? link.href.split("#")[1] : null;
+              const isActive = sectionId
+                ? activeSection === sectionId
+                : link.href === "/"
+                ? pathname === "/" && !activeSection
+                : pathname.startsWith(link.href) && link.href !== "/";
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`block px-4 py-2.5 rounded-lg transition-colors font-medium ${
+                    isActive
+                      ? "text-pink-500 bg-pink-50"
+                      : "text-gray-600 hover:text-pink-500 hover:bg-pink-50"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>
