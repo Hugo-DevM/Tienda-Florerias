@@ -208,7 +208,7 @@ export default function ContactoPage() {
             </div>
 
             {/* Fecha + Presupuesto */}
-            <div className="grid sm:grid-cols-2 gap-4 overflow-hidden">
+            <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                   Fecha requerida *
@@ -218,7 +218,7 @@ export default function ContactoPage() {
                   value={form.fecha}
                   onChange={(e) => set("fecha", e.target.value)}
                   min={new Date().toISOString().split("T")[0]}
-                  className="w-full max-w-full box-border border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all [color-scheme:light]"
+                  className="w-full min-w-0 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all [color-scheme:light]"
                   required
                 />
               </div>
