@@ -218,7 +218,7 @@ export default function ContactoPage() {
                   value={form.fecha}
                   onChange={(e) => set("fecha", e.target.value)}
                   min={new Date().toISOString().split("T")[0]}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all appearance-none"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all [color-scheme:light]"
                   required
                 />
               </div>
