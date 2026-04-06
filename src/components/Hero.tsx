@@ -14,7 +14,7 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Text */}
-          <div className="order-2 lg:order-1">
+          <div className="order-2 lg:order-1 text-center lg:text-left">
             <span className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
               🌸 Flores frescas cada día
             </span>
@@ -30,12 +30,12 @@ export default function Hero() {
               <span className="text-rose-600">en Línea</span>
             </h1>
 
-            <p className="text-gray-500 text-lg leading-relaxed mb-8 max-w-md">
+            <p className="text-gray-500 text-lg leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
               Arreglos florales frescos diseñados con amor para cada ocasión
               especial. Entrega a domicilio en toda la ciudad.
             </p>
 
-            <div className="flex flex-wrap gap-4 mb-10">
+            <div className="flex flex-wrap gap-4 mb-10 justify-center lg:justify-start">
               <Link
                 href="/tienda"
                 className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3.5 rounded-full font-semibold transition-all shadow-lg shadow-pink-200 hover:shadow-pink-300 hover:-translate-y-0.5"
@@ -54,19 +54,21 @@ export default function Hero() {
             </div>
 
             {/* Stats */}
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-4 sm:gap-8 pb-16 sm:pb-0 justify-center lg:justify-start">
               {[
                 { value: "200+", label: "Productos" },
                 { value: "500+", label: "Clientes" },
                 { value: "5 ★", label: "Calificación" },
               ].map((stat, i) => (
-                <div key={i} className="flex items-center gap-6">
-                  {i > 0 && <div className="w-px h-10 bg-gray-200" />}
+                <div key={i} className="flex items-center gap-3 sm:gap-6">
+                  {i > 0 && <div className="w-px h-8 sm:h-10 bg-gray-200" />}
                   <div>
-                    <p className="text-2xl font-bold text-gray-900">
+                    <p className="text-xl sm:text-2xl font-bold text-gray-900">
                       {stat.value}
                     </p>
-                    <p className="text-gray-400 text-sm">{stat.label}</p>
+                    <p className="text-gray-400 text-xs sm:text-sm">
+                      {stat.label}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -110,7 +112,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-400 animate-bounce">
+      <div className="absolute bottom-2 left-0 right-0 flex flex-col items-center gap-2 text-gray-400 animate-bounce">
         <span className="text-xs uppercase tracking-widest">Descubre</span>
         <svg
           className="w-4 h-4"

@@ -34,8 +34,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
         )}
 
-        {/* Category pill */}
-        <span className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm text-gray-600 px-2 py-0.5 rounded-full text-xs font-medium shadow-sm">
+        {/* Category pill — bottom-right to avoid overlap with badge */}
+        <span className="absolute bottom-3 right-3 z-10 bg-white/90 backdrop-blur-sm text-gray-600 px-2 py-0.5 rounded-full text-xs font-medium shadow-sm">
           {CATEGORY_LABELS[product.category]}
         </span>
 

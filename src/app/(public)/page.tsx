@@ -199,13 +199,13 @@ export default function HomePage() {
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className="text-center bg-pink-50 rounded-2xl p-4 border border-pink-100"
+                    className="text-center bg-pink-50 rounded-2xl p-2 sm:p-4 border border-pink-100 overflow-hidden"
                   >
-                    <span className="text-3xl block mb-2">{item.icon}</span>
-                    <p className="font-semibold text-gray-800 text-sm">
+                    <span className="text-2xl sm:text-3xl block mb-2">{item.icon}</span>
+                    <p className="font-semibold text-gray-800 text-xs sm:text-sm leading-tight">
                       {item.label}
                     </p>
-                    <p className="text-gray-400 text-xs mt-0.5">{item.sub}</p>
+                    <p className="text-gray-400 text-xs mt-0.5 leading-tight">{item.sub}</p>
                   </div>
                 ))}
               </div>
