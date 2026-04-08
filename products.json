@@ -7,7 +7,7 @@
       "price": 2000,
       "image": "https://res.cloudinary.com/dsqzm6bkn/image/upload/v1775406696/floreria/i11zx7w6u8w1hpqiqoau.webp",
       "category": "siempre_disponible",
-      "visible": true,
+      "visible": false,
       "featured": true,
       "badge": "Nuevo",
       "createdAt": "2026-04-05T16:32:06.329Z"
