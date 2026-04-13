@@ -1,3 +1,16 @@
 {
-  "products": []
+  "products": [
+    {
+      "id": "e01590b7-d623-4d11-841a-b251a3f255d5",
+      "name": "Ramo de girasoles",
+      "description": "Ramo de 10 girasoles",
+      "price": 698.98,
+      "image": "https://res.cloudinary.com/dsqzm6bkn/image/upload/v1776112459/floreria/vvhm8d1c7cnwrvslptji.webp",
+      "category": "siempre_disponible",
+      "visible": true,
+      "featured": true,
+      "badge": "",
+      "createdAt": "2026-04-13T20:36:36.794Z"
+    }
+  ]
 }
