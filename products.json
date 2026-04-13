@@ -23,6 +23,18 @@
       "featured": true,
       "badge": "",
       "createdAt": "2026-04-13T20:37:08.048Z"
+    },
+    {
+      "id": "ce9c8b5e-c284-412d-8158-1cf3f9e3f8d8",
+      "name": "Ramo de tulipanes",
+      "description": "Ramo de 10 tulipanes de cualquier tipo de color ",
+      "price": 1000,
+      "image": "https://res.cloudinary.com/dsqzm6bkn/image/upload/v1776113107/floreria/rzfy4xiaqh5nmvtq80ka.webp",
+      "category": "sobre_pedido",
+      "visible": true,
+      "featured": true,
+      "badge": "",
+      "createdAt": "2026-04-13T20:46:23.954Z"
     }
   ]
 }
