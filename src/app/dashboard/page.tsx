@@ -18,6 +18,7 @@ export default function DashboardPage() {
   const [editTarget, setEditTarget] = useState<Product | null>(null);
   const [toast, setToast] = useState("");
   const [filterCat, setFilterCat] = useState<string>("todos");
+  const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
 
   // Auth guard
   useEffect(() => {
@@ -103,14 +104,14 @@ export default function DashboardPage() {
     }
   };
 
-  const handleDelete = async (product: Product) => {
-    if (
-      !confirm(
-        `¿Eliminar "${product.name}"?\n\nEsta acción no se puede deshacer.`
-      )
-    )
-      return;
+  const handleDelete = (product: Product) => {
+    setDeleteTarget(product);
+  };
 
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    const product = deleteTarget;
+    setDeleteTarget(null);
     setMutating(product.id);
     try {
       const res = await fetch("/api/products", {
@@ -151,6 +152,45 @@ export default function DashboardPage() {
       {toast && (
         <div className="fixed top-4 right-4 z-50 bg-gray-900 text-white px-5 py-3 rounded-2xl shadow-xl text-sm font-medium animate-slideIn">
           {toast}
+        </div>
+      )}
+
+      {/* Delete confirmation modal */}
+      {deleteTarget && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 animate-slideIn">
+            <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-red-50 mx-auto mb-4">
+              <svg className="w-7 h-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </div>
+            <h3
+              className="text-lg font-bold text-gray-900 text-center mb-1"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              ¿Eliminar producto?
+            </h3>
+            <p className="text-sm text-gray-500 text-center mb-1">
+              <span className="font-semibold text-gray-700">&ldquo;{deleteTarget.name}&rdquo;</span>
+            </p>
+            <p className="text-xs text-gray-400 text-center mb-6">
+              Esta acción no se puede deshacer.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeleteTarget(null)}
+                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-sm transition-colors"
+              >
+                Sí, eliminar
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

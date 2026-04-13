@@ -198,6 +198,7 @@ export default function ProductForm({
               type="number"
               value={form.price}
               onChange={(e) => setForm((p) => ({ ...p, price: e.target.value }))}
+              onWheel={(e) => (e.target as HTMLInputElement).blur()}
               placeholder="0"
               min="0"
               step="0.01"
