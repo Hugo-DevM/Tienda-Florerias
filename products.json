@@ -11,6 +11,18 @@
       "featured": true,
       "badge": "",
       "createdAt": "2026-04-13T20:36:36.794Z"
+    },
+    {
+      "id": "21fbe793-0610-4eb8-bad2-c1433e21c554",
+      "name": "Ramo de rosas",
+      "description": "Ramo de 15 rosas color rosita",
+      "price": 700,
+      "image": "https://res.cloudinary.com/dsqzm6bkn/image/upload/v1776112605/floreria/kvnwdi2joc8ji5kaxhaf.webp",
+      "category": "siempre_disponible",
+      "visible": true,
+      "featured": true,
+      "badge": "",
+      "createdAt": "2026-04-13T20:37:08.048Z"
     }
   ]
 }
