@@ -9,11 +9,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#ec4899",
+        brand: {
+          DEFAULT: "#7C2D3C",
+          light: "#F3E2E6",
+          subtle: "#FBF5F6",
+          muted: "#A05468",
+        },
+        sage: {
+          DEFAULT: "#4A7C59",
+          light: "#EBF4EF",
+        },
+        cream: "#FAF9F7",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        serif: ["var(--font-playfair)", "Georgia", "serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Cormorant Garamond", "Georgia", "serif"],
       },
       keyframes: {
         slideIn: {

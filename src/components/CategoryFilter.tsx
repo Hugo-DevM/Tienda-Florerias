@@ -1,6 +1,6 @@
 "use client";
 
-import { Category, CATEGORY_LABELS, CATEGORY_ICONS, CATEGORY_DESCRIPTIONS } from "@/types";
+import { Category, CATEGORY_LABELS, CATEGORY_DESCRIPTIONS } from "@/types";
 
 interface Props {
   selected: Category | "todos";
@@ -8,11 +8,11 @@ interface Props {
   counts?: Partial<Record<Category | "todos", number>>;
 }
 
-const ALL_TABS: Array<{ key: Category | "todos"; emoji: string }> = [
-  { key: "todos", emoji: "🌺" },
-  { key: "siempre_disponible", emoji: CATEGORY_ICONS.siempre_disponible },
-  { key: "temporada", emoji: CATEGORY_ICONS.temporada },
-  { key: "sobre_pedido", emoji: CATEGORY_ICONS.sobre_pedido },
+const ALL_TABS: Array<{ key: Category | "todos" }> = [
+  { key: "todos" },
+  { key: "siempre_disponible" },
+  { key: "temporada" },
+  { key: "sobre_pedido" },
 ];
 
 const LABELS: Record<Category | "todos", string> = {
@@ -30,28 +30,44 @@ const DESCRIPTIONS: Record<Category | "todos", string> = {
 export default function CategoryFilter({ selected, onChange, counts }: Props) {
   return (
     <div className="w-full">
-      {/* Pill tabs */}
-      <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-        {ALL_TABS.map(({ key, emoji }) => {
+      <div className="flex flex-wrap gap-1.5">
+        {ALL_TABS.map(({ key }) => {
           const isActive = selected === key;
           const count = counts?.[key];
           return (
             <button
               key={key}
               onClick={() => onChange(key)}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm font-semibold transition-all border ${
-                isActive
-                  ? "bg-pink-500 border-pink-500 text-white shadow-md shadow-pink-200"
-                  : "bg-white border-gray-200 text-gray-600 hover:border-pink-300 hover:text-pink-500"
-              }`}
+              className="btn-press flex items-center gap-2 px-4 py-2 text-sm font-medium border"
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                background: isActive ? "#7C2D3C" : "white",
+                borderColor: isActive ? "#7C2D3C" : "#E7E5E4",
+                color: isActive ? "white" : "#57534E",
+                transition: "background 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out)",
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  (e.currentTarget as HTMLElement).style.borderColor = "#7C2D3C";
+                  (e.currentTarget as HTMLElement).style.color = "#7C2D3C";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  (e.currentTarget as HTMLElement).style.borderColor = "#E7E5E4";
+                  (e.currentTarget as HTMLElement).style.color = "#57534E";
+                }
+              }}
             >
-              <span>{emoji}</span>
               <span>{LABELS[key]}</span>
               {count !== undefined && (
                 <span
-                  className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${
-                    isActive ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
-                  }`}
+                  className="text-xs px-1.5 py-0.5"
+                  style={{
+                    background: isActive ? "rgba(255,255,255,0.2)" : "#F5F5F4",
+                    color: isActive ? "white" : "#A8A29E",
+                    fontFamily: "'Inter', sans-serif",
+                  }}
                 >
                   {count}
                 </span>
@@ -61,8 +77,10 @@ export default function CategoryFilter({ selected, onChange, counts }: Props) {
         })}
       </div>
 
-      {/* Active description */}
-      <p className="text-gray-400 text-sm mt-3 ml-1">
+      <p
+        className="text-sm mt-3"
+        style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
+      >
         {DESCRIPTIONS[selected]}
       </p>
     </div>

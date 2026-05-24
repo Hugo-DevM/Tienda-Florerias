@@ -11,22 +11,18 @@ export default function CartDrawer() {
 
   const buildWhatsAppMessage = () => {
     if (items.length === 0) return "";
-
     const lines = [
-      "🌸 *Hola! Quiero hacer un pedido:*",
+      "*Hola, quiero hacer un pedido:*",
       "",
       ...items.map(
         (i) =>
-          `• ${i.product.name} x${i.quantity} — $${(
-            i.product.price * i.quantity
-          ).toLocaleString("es-MX")}`
+          `• ${i.product.name} x${i.quantity} — $${(i.product.price * i.quantity).toLocaleString("es-MX")}`
       ),
       "",
       `*Total: $${total.toLocaleString("es-MX")}*`,
       "",
-      "¿Pueden confirmar disponibilidad y forma de pago? Gracias 😊",
+      "¿Pueden confirmar disponibilidad y forma de pago? Gracias.",
     ];
-
     return encodeURIComponent(lines.join("\n"));
   };
 
@@ -36,146 +32,237 @@ export default function CartDrawer() {
     window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
   };
 
+  const itemCount = items.reduce((s, i) => s + i.quantity, 0);
+
   return (
     <>
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 animate-fadeIn"
+          className="fixed inset-0 z-40"
+          style={{
+            background: "rgba(26,22,20,0.5)",
+            backdropFilter: "blur(4px)",
+            animation: "fadeUp 200ms var(--ease-out) both",
+          }}
           onClick={closeCart}
         />
       )}
 
       {/* Drawer */}
       <aside
-        className={`fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white z-50 shadow-2xl flex flex-col transition-transform duration-300 ease-out ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className="fixed top-0 right-0 h-full w-full sm:w-[380px] z-50 flex flex-col"
+        style={{
+          background: "#FAF9F7",
+          boxShadow: "-8px 0 40px -8px rgba(0,0,0,0.12)",
+          transform: isOpen ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 320ms var(--ease-out)",
+        }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🛍️</span>
-            <h2 className="font-bold text-gray-900 text-lg">Mi Carrito</h2>
-            {items.length > 0 && (
-              <span className="bg-pink-100 text-pink-600 text-xs font-bold px-2 py-0.5 rounded-full">
-                {items.reduce((s, i) => s + i.quantity, 0)}
+        <div
+          className="flex items-center justify-between px-6 py-5"
+          style={{ borderBottom: "1px solid #E7E5E4" }}
+        >
+          <div className="flex items-center gap-3">
+            <h2
+              className="font-display font-light text-stone-900"
+              style={{ fontSize: "1.375rem", letterSpacing: "-0.02em" }}
+            >
+              Carrito
+            </h2>
+            {itemCount > 0 && (
+              <span
+                className="text-xs font-medium px-2 py-0.5"
+                style={{
+                  background: "#7C2D3C",
+                  color: "white",
+                  fontFamily: "'Inter', sans-serif",
+                }}
+              >
+                {itemCount}
               </span>
             )}
           </div>
           <button
             onClick={closeCart}
-            className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+            className="btn-press p-2 text-stone-400 hover:text-stone-700"
+            style={{ transition: "color 150ms var(--ease-out)" }}
+            aria-label="Cerrar carrito"
           >
             <XSvg />
           </button>
         </div>
 
         {/* Items */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+        <div className="flex-1 overflow-y-auto px-6 py-5">
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center py-16">
-              <span className="text-6xl mb-4">🌷</span>
-              <p className="text-gray-500 font-medium">Tu carrito está vacío</p>
-              <p className="text-gray-400 text-sm mt-1">
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="w-12 h-px mb-8" style={{ background: "#E7E5E4" }} />
+              <p
+                className="font-display font-light text-stone-500 text-xl mb-1"
+                style={{ letterSpacing: "-0.01em" }}
+              >
+                Tu carrito está vacío
+              </p>
+              <p
+                className="text-sm mb-8"
+                style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
+              >
                 Agrega flores para comenzar
               </p>
               <button
                 onClick={closeCart}
-                className="mt-6 bg-pink-500 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-pink-600 transition-colors"
+                className="btn-press border border-stone-300 text-stone-700 px-6 py-2.5 text-sm font-medium hover:border-brand hover:text-brand"
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  transition: "border-color 150ms var(--ease-out), color 150ms var(--ease-out)",
+                }}
               >
-                Ver Tienda
+                Ver tienda
               </button>
             </div>
           ) : (
-            items.map((item) => (
-              <div
-                key={item.product.id}
-                className="flex gap-3 bg-gray-50 rounded-xl p-3"
-              >
-                {/* Image */}
-                <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-pink-100">
-                  {item.product.image ? (
-                    <Image
-                      src={item.product.image}
-                      alt={item.product.name}
-                      fill
-                      className="object-cover"
-                      sizes="64px"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-2xl">
-                      🌸
-                    </div>
-                  )}
-                </div>
-
-                {/* Details */}
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-800 text-sm line-clamp-1">
-                    {item.product.name}
-                  </p>
-                  <p className="text-pink-600 font-bold text-sm mt-0.5">
-                    ${(item.product.price * item.quantity).toLocaleString("es-MX")}
-                  </p>
-
-                  <div className="flex items-center gap-2 mt-2">
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.product.id, item.quantity - 1)
-                      }
-                      className="w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:border-pink-400 hover:text-pink-500 transition-colors font-bold"
-                    >
-                      −
-                    </button>
-                    <span className="w-6 text-center text-sm font-semibold">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.product.id, item.quantity + 1)
-                      }
-                      className="w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:border-pink-400 hover:text-pink-500 transition-colors font-bold"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                {/* Remove */}
-                <button
-                  onClick={() => removeItem(item.product.id)}
-                  className="p-1 text-gray-300 hover:text-red-400 transition-colors self-start"
+            <div className="space-y-3">
+              {items.map((item) => (
+                <div
+                  key={item.product.id}
+                  className="flex gap-4 bg-white p-3"
+                  style={{ boxShadow: "0 1px 4px -1px rgba(0,0,0,0.06)" }}
                 >
-                  <TrashSvg />
-                </button>
-              </div>
-            ))
+                  {/* Image */}
+                  <div
+                    className="relative flex-shrink-0 overflow-hidden bg-stone-100"
+                    style={{ width: 64, height: 64 }}
+                  >
+                    {item.product.image ? (
+                      <Image
+                        src={item.product.image}
+                        alt={item.product.name}
+                        fill
+                        className="object-cover"
+                        sizes="64px"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <svg className="w-6 h-6 text-stone-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.5a4 4 0 014 4M12 6.5a4 4 0 00-4 4M12 6.5V3M8 10.5a4 4 0 004 4M8 10.5H4.5M16 10.5a4 4 0 01-4 4M16 10.5H19.5M12 14.5v3.5" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Details */}
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className="text-stone-900 text-sm font-medium line-clamp-1 mb-0.5"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {item.product.name}
+                    </p>
+                    <p
+                      className="font-display text-base font-medium"
+                      style={{ color: "#7C2D3C", letterSpacing: "-0.01em" }}
+                    >
+                      ${(item.product.price * item.quantity).toLocaleString("es-MX")}
+                    </p>
+
+                    {/* Quantity controls */}
+                    <div className="flex items-center gap-3 mt-2">
+                      <button
+                        onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                        className="btn-press w-6 h-6 border border-stone-200 flex items-center justify-center text-stone-500 hover:border-brand hover:text-brand text-sm"
+                        style={{ transition: "border-color 150ms var(--ease-out), color 150ms var(--ease-out)", fontFamily: "'Inter', sans-serif" }}
+                      >
+                        −
+                      </button>
+                      <span
+                        className="text-sm font-medium text-stone-700 w-4 text-center"
+                        style={{ fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                        className="btn-press w-6 h-6 border border-stone-200 flex items-center justify-center text-stone-500 hover:border-brand hover:text-brand text-sm"
+                        style={{ transition: "border-color 150ms var(--ease-out), color 150ms var(--ease-out)", fontFamily: "'Inter', sans-serif" }}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Remove */}
+                  <button
+                    onClick={() => removeItem(item.product.id)}
+                    className="btn-press self-start p-1 text-stone-300 hover:text-stone-500"
+                    style={{ transition: "color 150ms var(--ease-out)" }}
+                    aria-label="Eliminar"
+                  >
+                    <TrashSvg />
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-gray-100 px-5 py-5 space-y-4 bg-white">
-            <div className="flex items-center justify-between">
-              <span className="text-gray-600 font-medium">Subtotal</span>
-              <span className="text-gray-900 font-bold text-xl">
+          <div
+            className="px-6 py-5 space-y-4"
+            style={{ borderTop: "1px solid #E7E5E4", background: "white" }}
+          >
+            {/* Total */}
+            <div className="flex items-baseline justify-between">
+              <span
+                className="text-sm text-stone-500"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Total
+              </span>
+              <span
+                className="font-display font-medium text-stone-900"
+                style={{ fontSize: "1.5rem", letterSpacing: "-0.02em" }}
+              >
                 ${total.toLocaleString("es-MX")}
               </span>
             </div>
-            <p className="text-xs text-gray-400 text-center">
-              * El envío se calcula al confirmar por WhatsApp
+
+            <p
+              className="text-xs"
+              style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
+            >
+              Envío a calcular al confirmar por WhatsApp
             </p>
+
+            {/* WhatsApp CTA */}
             <button
               onClick={handleCheckout}
-              className="w-full bg-green-500 hover:bg-green-600 text-white py-3.5 rounded-full font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-200"
+              className="btn-press w-full py-3.5 flex items-center justify-center gap-2.5 text-sm font-medium"
+              style={{
+                background: "#25D366",
+                color: "white",
+                fontFamily: "'Inter', sans-serif",
+                transition: "opacity 150ms var(--ease-out)",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.9")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
             >
               <WhatsAppSvg />
               Pedir por WhatsApp
             </button>
+
             <button
               onClick={clearCart}
-              className="w-full text-gray-400 hover:text-gray-600 text-sm py-1 transition-colors"
+              className="w-full text-xs text-center"
+              style={{
+                color: "#A8A29E",
+                fontFamily: "'Inter', sans-serif",
+                transition: "color 150ms var(--ease-out)",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#57534E")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#A8A29E")}
             >
               Vaciar carrito
             </button>
@@ -188,23 +275,23 @@ export default function CartDrawer() {
 
 function XSvg() {
   return (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
   );
 }
 
 function TrashSvg() {
   return (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
     </svg>
   );
 }
 
 function WhatsAppSvg() {
   return (
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
     </svg>
   );

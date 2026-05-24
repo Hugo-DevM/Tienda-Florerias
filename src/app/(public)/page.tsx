@@ -31,49 +31,95 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* Categories section */}
-      <section id="categorias" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-pink-500 font-semibold text-sm uppercase tracking-widest">
-              Nuestras categorías
-            </span>
-            <h2
-              className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+      {/* ── Categories ──────────────────────────────────────────── */}
+      <section id="categorias" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          {/* Section header */}
+          <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
+            <div>
+              <span
+                className="text-[10px] uppercase tracking-[0.2em] font-medium block mb-3"
+                style={{ color: "#7C2D3C", fontFamily: "'Inter', sans-serif" }}
+              >
+                Colecciones
+              </span>
+              <h2
+                className="font-display font-light text-stone-900 leading-tight"
+                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em" }}
+              >
+                Flores para{" "}
+                <em style={{ fontStyle: "italic" }}>cada ocasión</em>
+              </h2>
+            </div>
+            <Link
+              href="/tienda"
+              className="text-sm font-medium text-stone-400 hover:text-brand flex items-center gap-2 shrink-0"
+              style={{ transition: "color 150ms var(--ease-out)", fontFamily: "'Inter', sans-serif" }}
             >
-              Flores para{" "}
-              <span className="text-pink-500 italic">cada ocasión</span>
-            </h2>
+              Ver todo
+              <span>→</span>
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {categories.map((cat) => {
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {categories.map((cat, i) => {
               const count = visible.filter((p) => p.category === cat).length;
+              const images = [
+                "https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=600&h=700&fit=crop",
+                "https://images.unsplash.com/photo-1468327768560-75b778cbb551?w=600&h=700&fit=crop",
+                "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=700&fit=crop",
+              ];
               return (
                 <Link
                   key={cat}
                   href={`/tienda?cat=${cat}`}
-                  className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-100 p-8 hover:shadow-xl transition-all hover:-translate-y-1"
+                  className="btn-press group relative overflow-hidden block"
+                  style={{
+                    aspectRatio: i === 0 ? "3/4" : "3/4",
+                    transition: "transform 250ms var(--ease-out)",
+                  }}
                 >
-                  <div className="text-5xl mb-4">{CATEGORY_ICONS[cat]}</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">
-                    {CATEGORY_LABELS[cat]}
-                  </h3>
-                  <p className="text-gray-500 text-sm mb-4">
-                    {CATEGORY_DESCRIPTIONS[cat]}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-pink-500 bg-pink-100 px-3 py-1 rounded-full">
+                  {/* Background image */}
+                  <img
+                    src={images[i]}
+                    alt={CATEGORY_LABELS[cat]}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ transition: "transform 600ms var(--ease-out)" }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.transform = "scale(1.04)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                    }}
+                  />
+                  {/* Overlay */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: "linear-gradient(to top, rgba(26,22,20,0.72) 0%, rgba(26,22,20,0.1) 50%, transparent 100%)",
+                    }}
+                  />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <p
+                      className="text-[10px] uppercase tracking-[0.2em] text-white/60 mb-1"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
                       {count} productos
-                    </span>
-                    <span className="text-pink-500 group-hover:translate-x-1 transition-transform">
-                      →
-                    </span>
+                    </p>
+                    <h3
+                      className="font-display text-white font-light text-xl leading-tight"
+                      style={{ letterSpacing: "-0.01em" }}
+                    >
+                      {CATEGORY_LABELS[cat]}
+                    </h3>
+                    <p
+                      className="text-white/70 text-xs mt-1 line-clamp-1"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {CATEGORY_DESCRIPTIONS[cat]}
+                    </p>
                   </div>
-
-                  {/* Decorative blob */}
-                  <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-pink-100 rounded-full opacity-40 group-hover:scale-125 transition-transform duration-500" />
                 </Link>
               );
             })}
@@ -81,86 +127,81 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured products */}
-      <section className="py-20 bg-gradient-to-b from-white to-pink-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-pink-500 font-semibold text-sm uppercase tracking-widest">
-              Selección especial
-            </span>
-            <h2
-              className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Productos{" "}
-              <span className="text-pink-500 italic">Destacados</span>
-            </h2>
-            <p className="text-gray-500 mt-3 max-w-xl mx-auto">
-              Nuestros arreglos más populares, elegidos por su belleza y calidad
-            </p>
-          </div>
-
-          {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl overflow-hidden animate-pulse">
-                  <div className="aspect-square bg-pink-100" />
-                  <div className="p-4 space-y-2">
-                    <div className="h-4 bg-gray-100 rounded w-3/4" />
-                    <div className="h-3 bg-gray-100 rounded w-full" />
-                    <div className="h-3 bg-gray-100 rounded w-2/3" />
-                  </div>
-                </div>
-              ))}
+      {/* ── Featured products ────────────────────────────────────── */}
+      <section className="py-24" style={{ background: "#FAF9F7" }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
+            <div>
+              <span
+                className="text-[10px] uppercase tracking-[0.2em] font-medium block mb-3"
+                style={{ color: "#7C2D3C", fontFamily: "'Inter', sans-serif" }}
+              >
+                Selección especial
+              </span>
+              <h2
+                className="font-display font-light text-stone-900 leading-tight"
+                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em" }}
+              >
+                Productos{" "}
+                <em style={{ fontStyle: "italic" }}>destacados</em>
+              </h2>
             </div>
-          ) : featured.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {featured.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {visible.slice(0, 4).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          )}
-
-          <div className="text-center mt-10">
             <Link
               href="/tienda"
-              className="inline-flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white px-8 py-3.5 rounded-full font-semibold transition-all shadow-lg shadow-pink-200 hover:-translate-y-0.5"
+              className="text-sm font-medium text-stone-400 hover:text-brand flex items-center gap-2 shrink-0"
+              style={{ transition: "color 150ms var(--ease-out)", fontFamily: "'Inter', sans-serif" }}
             >
-              Ver todos los productos
+              Ver catálogo completo
               <span>→</span>
             </Link>
           </div>
+
+          {loading ? (
+            <SkeletonGrid count={4} />
+          ) : featured.length > 0 ? (
+            <ProductGrid products={featured} />
+          ) : (
+            <ProductGrid products={visible.slice(0, 4)} />
+          )}
         </div>
       </section>
 
-      {/* About section */}
-      <section id="nosotros" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Images collage */}
-            <div className="grid grid-cols-2 gap-4">
+      {/* ── About ────────────────────────────────────────────────── */}
+      <section id="nosotros" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+            {/* Image collage */}
+            <div className="grid grid-cols-2 gap-3">
               {[
-                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
-                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
-                "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop",
-                "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop",
-              ].map((src, i) => (
-                <div
-                  key={i}
-                  className={`overflow-hidden rounded-2xl ${
-                    i === 0 || i === 3 ? "aspect-square" : "aspect-video"
-                  }`}
-                >
+                {
+                  src: "https://images.unsplash.com/photo-1738951171612-b1d02b4bbaed?w=480&h=560&fit=crop",
+                  className: "col-span-1 row-span-2",
+                  style: { aspectRatio: "2/3" },
+                },
+                {
+                  src: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=480&h=320&fit=crop",
+                  className: "col-span-1",
+                  style: { aspectRatio: "4/3" },
+                },
+                {
+                  src: "https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=480&h=320&fit=crop",
+                  className: "col-span-1",
+                  style: { aspectRatio: "4/3" },
+                },
+              ].map((img, i) => (
+                <div key={i} className={`overflow-hidden ${img.className}`} style={img.style}>
                   <img
-                    src={src}
+                    src={img.src}
                     alt={`Florería ${i + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
+                    style={{ transition: "transform 500ms var(--ease-out)" }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.transform = "scale(1.04)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                    }}
                   />
                 </div>
               ))}
@@ -168,44 +209,56 @@ export default function HomePage() {
 
             {/* Text */}
             <div>
-              <span className="text-pink-500 font-semibold text-sm uppercase tracking-widest">
+              <span
+                className="text-[10px] uppercase tracking-[0.2em] font-medium block mb-4"
+                style={{ color: "#7C2D3C", fontFamily: "'Inter', sans-serif" }}
+              >
                 Nuestra historia
               </span>
               <h2
-                className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2 mb-5"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+                className="font-display font-light text-stone-900 leading-tight mb-6"
+                style={{ fontSize: "clamp(2rem, 4vw, 2.75rem)", letterSpacing: "-0.02em" }}
               >
                 Creamos momentos{" "}
-                <span className="text-pink-500 italic">inolvidables</span>
+                <em style={{ fontStyle: "italic" }}>inolvidables</em>
               </h2>
-              <div className="space-y-4 text-gray-500 leading-relaxed">
+
+              <div
+                className="space-y-4 leading-relaxed mb-10"
+                style={{ color: "#6B6460", fontFamily: "'Inter', sans-serif", fontSize: "0.9375rem" }}
+              >
                 <p>
-                  Somos una florería apasionada por la belleza natural de las
-                  flores. Cada arreglo que creamos lleva consigo dedicación,
-                  amor y el deseo de hacer que cada momento sea especial.
+                  Somos una florería apasionada por la belleza natural de las flores.
+                  Cada arreglo que creamos lleva consigo dedicación, amor y el deseo
+                  de hacer que cada momento sea especial.
                 </p>
                 <p>
-                  Trabajamos directamente con productores locales para
-                  garantizar la frescura y calidad de nuestras flores, llevando
-                  lo mejor de la naturaleza directamente a tu puerta.
+                  Trabajamos directamente con productores locales para garantizar la
+                  frescura y calidad de nuestras flores, llevando lo mejor de la
+                  naturaleza directamente a tu puerta.
                 </p>
               </div>
 
-              <div className="grid grid-cols-3 gap-4 mt-8">
+              {/* Pillars */}
+              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-stone-100">
                 {[
-                  { icon: "🌹", label: "Flores frescas", sub: "Diariamente" },
-                  { icon: "🚚", label: "Entrega", sub: "A domicilio" },
-                  { icon: "💝", label: "Personalizado", sub: "Cada pedido" },
+                  { value: "Frescura", sub: "Flores diarias del campo" },
+                  { value: "Entrega", sub: "A domicilio en la ciudad" },
+                  { value: "Cuidado", sub: "Cada pedido, personalizado" },
                 ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="text-center bg-pink-50 rounded-2xl p-2 sm:p-4 border border-pink-100 overflow-hidden"
-                  >
-                    <span className="text-2xl sm:text-3xl block mb-2">{item.icon}</span>
-                    <p className="font-semibold text-gray-800 text-xs sm:text-sm leading-tight">
-                      {item.label}
+                  <div key={i}>
+                    <p
+                      className="font-display font-medium text-stone-900 text-base mb-1"
+                      style={{ letterSpacing: "-0.01em" }}
+                    >
+                      {item.value}
                     </p>
-                    <p className="text-gray-400 text-xs mt-0.5 leading-tight">{item.sub}</p>
+                    <p
+                      className="text-xs leading-snug"
+                      style={{ color: "#8C8480", fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {item.sub}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -214,51 +267,74 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* All products */}
-      <section className="py-20 bg-pink-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+      {/* ── All products ─────────────────────────────────────────── */}
+      <section className="py-24" style={{ background: "#F5F3F1" }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-14">
             <h2
-              className="text-3xl sm:text-4xl font-bold text-gray-900"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+              className="font-display font-light text-stone-900 leading-tight"
+              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em" }}
             >
-              Todos los{" "}
-              <span className="text-pink-500 italic">Productos</span>
+              Todo el <em style={{ fontStyle: "italic" }}>catálogo</em>
             </h2>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl overflow-hidden animate-pulse">
-                  <div className="aspect-square bg-pink-100" />
-                  <div className="p-4 space-y-2">
-                    <div className="h-4 bg-gray-100 rounded w-3/4" />
-                    <div className="h-3 bg-gray-100 rounded w-full" />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <SkeletonGrid count={8} />
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {visible.slice(0, 8).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <ProductGrid products={visible.slice(0, 8)} />
           )}
 
           {visible.length > 8 && (
-            <div className="text-center mt-10">
+            <div className="text-center mt-12">
               <Link
                 href="/tienda"
-                className="inline-flex items-center gap-2 border-2 border-pink-400 text-pink-500 hover:bg-pink-50 px-8 py-3.5 rounded-full font-semibold transition-colors"
+                className="btn-press inline-flex items-center gap-2.5 border border-stone-300 text-stone-700 px-8 py-3.5 text-sm font-medium hover:border-brand hover:text-brand"
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  transition: "border-color 200ms var(--ease-out), color 200ms var(--ease-out)",
+                }}
               >
                 Ver catálogo completo ({visible.length} productos)
+                <span>→</span>
               </Link>
             </div>
           )}
         </div>
       </section>
     </>
+  );
+}
+
+function ProductGrid({ products }: { products: Product[] }) {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+      {products.map((product, i) => (
+        <div
+          key={product.id}
+          className="fade-up"
+          style={{ animationDelay: `${i * 40}ms` }}
+        >
+          <ProductCard product={product} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SkeletonGrid({ count }: { count: number }) {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+      {[...Array(count)].map((_, i) => (
+        <div key={i} className="bg-white overflow-hidden animate-pulse">
+          <div className="aspect-square bg-stone-100" />
+          <div className="p-4 space-y-2.5">
+            <div className="h-3.5 bg-stone-100 w-3/4" />
+            <div className="h-3 bg-stone-100 w-full" />
+            <div className="h-3 bg-stone-100 w-2/3" />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }

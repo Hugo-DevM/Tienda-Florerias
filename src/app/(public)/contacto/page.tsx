@@ -73,21 +73,28 @@ export default function ContactoPage() {
 
   if (sent) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white flex items-center justify-center px-4">
+      <div className="min-h-screen flex items-center justify-center px-6" style={{ background: "#FAF9F7" }}>
         <div className="text-center max-w-md">
-          <span className="text-7xl block mb-6">💐</span>
+          <div className="w-12 h-px mx-auto mb-10" style={{ background: "#7C2D3C" }} />
           <h2
-            className="text-3xl font-bold text-gray-900 mb-3"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            className="font-display font-light text-stone-900 mb-3"
+            style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)", letterSpacing: "-0.02em" }}
           >
-            ¡Mensaje enviado!
+            Solicitud enviada
           </h2>
-          <p className="text-gray-500 mb-8">
+          <p
+            className="mb-8 leading-relaxed"
+            style={{ color: "#78716C", fontFamily: "'Inter', sans-serif", fontSize: "0.9375rem" }}
+          >
             Te redirigimos a WhatsApp con los detalles de tu pedido. Nos pondremos en contacto contigo pronto.
           </p>
           <button
             onClick={() => setSent(false)}
-            className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-full font-semibold transition-colors"
+            className="btn-press inline-flex items-center gap-2 border border-stone-300 text-stone-700 px-6 py-2.5 text-sm font-medium hover:border-brand hover:text-brand"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              transition: "border-color 150ms var(--ease-out), color 150ms var(--ease-out)",
+            }}
           >
             Hacer otro pedido
           </button>
@@ -97,54 +104,58 @@ export default function ContactoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50/60 to-white">
+    <div className="min-h-screen" style={{ background: "#FAF9F7" }}>
       {/* Header */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-          <span className="text-pink-500 font-semibold text-sm uppercase tracking-widest">
+      <div className="bg-white border-b border-stone-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 text-center">
+          <span
+            className="text-[10px] uppercase tracking-[0.2em] font-medium block mb-3"
+            style={{ color: "#7C2D3C", fontFamily: "'Inter', sans-serif" }}
+          >
             Pedidos especiales
           </span>
           <h1
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            className="font-display font-light text-stone-900 leading-tight"
+            style={{ fontSize: "clamp(1.875rem, 4vw, 2.5rem)", letterSpacing: "-0.02em" }}
           >
-            Crea tu arreglo{" "}
-            <span className="text-pink-500 italic">personalizado</span>
+            Crea tu arreglo <em style={{ fontStyle: "italic" }}>personalizado</em>
           </h1>
-          <p className="text-gray-500 mt-3 max-w-xl mx-auto">
+          <p
+            className="mt-3 max-w-xl mx-auto"
+            style={{ color: "#78716C", fontFamily: "'Inter', sans-serif", fontSize: "0.9375rem" }}
+          >
             ¿Tienes una ocasión especial? Cuéntanos los detalles y te ayudamos a crear el arreglo perfecto.
           </p>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-12">
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Info lateral */}
-          <div className="space-y-5">
+          <div className="space-y-4">
             {[
-              {
-                icon: "💬",
-                title: "Respuesta rápida",
-                desc: "Te contestamos por WhatsApp en menos de 24 horas.",
-              },
-              {
-                icon: "🎨",
-                title: "100% personalizado",
-                desc: "Diseñamos el arreglo según tus colores, flores y presupuesto.",
-              },
-              {
-                icon: "🚚",
-                title: "Entrega a domicilio",
-                desc: "Llevamos tu pedido a donde lo necesites.",
-              },
+              { title: "Respuesta rápida", desc: "Te contestamos por WhatsApp en menos de 24 horas." },
+              { title: "100% personalizado", desc: "Diseñamos el arreglo según tus colores, flores y presupuesto." },
+              { title: "Entrega a domicilio", desc: "Llevamos tu pedido a donde lo necesites." },
             ].map((item) => (
               <div
                 key={item.title}
-                className="bg-white rounded-2xl p-5 border border-pink-100 shadow-sm"
+                className="bg-white p-5 border border-stone-100"
+                style={{ boxShadow: "0 1px 4px -1px rgba(0,0,0,0.06)" }}
               >
-                <span className="text-3xl block mb-2">{item.icon}</span>
-                <p className="font-bold text-gray-800 text-sm">{item.title}</p>
-                <p className="text-gray-400 text-xs mt-1 leading-relaxed">{item.desc}</p>
+                <div className="w-6 h-px mb-3" style={{ background: "#7C2D3C" }} />
+                <p
+                  className="font-medium text-stone-800 text-sm mb-1"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {item.title}
+                </p>
+                <p
+                  className="text-xs leading-relaxed"
+                  style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
+                >
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -152,125 +163,152 @@ export default function ContactoPage() {
           {/* Formulario */}
           <form
             onSubmit={handleSubmit}
-            className="lg:col-span-3 bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 space-y-5"
+            className="lg:col-span-3 bg-white border border-stone-100 p-6 sm:p-8 space-y-5"
+            style={{ boxShadow: "0 1px 4px -1px rgba(0,0,0,0.06)" }}
           >
             {/* Nombre + Teléfono */}
             <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Tu nombre *
-                </label>
+              <FormField label="Tu nombre *">
                 <input
                   type="text"
                   value={form.nombre}
                   onChange={(e) => set("nombre", e.target.value)}
                   placeholder="Ej: María García"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all"
+                  className="w-full border border-stone-200 px-4 py-2.5 text-sm bg-white focus:outline-none"
+                  style={{ fontFamily: "'Inter', sans-serif", transition: "border-color 150ms var(--ease-out)" }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "#7C2D3C")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E7E5E4")}
                   required
                 />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  WhatsApp / Teléfono{" "}
-                  <span className="text-gray-400 font-normal">(opcional)</span>
-                </label>
+              </FormField>
+              <FormField label="WhatsApp / Teléfono" sub="(opcional)">
                 <input
                   type="tel"
                   value={form.telefono}
                   onChange={(e) => set("telefono", e.target.value)}
                   placeholder="Ej: 3221234567"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all"
+                  className="w-full border border-stone-200 px-4 py-2.5 text-sm bg-white focus:outline-none"
+                  style={{ fontFamily: "'Inter', sans-serif", transition: "border-color 150ms var(--ease-out)" }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "#7C2D3C")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E7E5E4")}
                 />
-              </div>
+              </FormField>
             </div>
 
             {/* Ocasión */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Tipo de ocasión *
-              </label>
+            <FormField label="Tipo de ocasión *">
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                {OCASIONES.map((o) => (
-                  <button
-                    key={o.value}
-                    type="button"
-                    onClick={() => set("ocasion", o.value)}
-                    className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all text-left ${
-                      form.ocasion === o.value
-                        ? "bg-pink-500 border-pink-500 text-white"
-                        : "bg-white border-gray-200 text-gray-600 hover:border-pink-300"
-                    }`}
-                  >
-                    {o.label}
-                  </button>
-                ))}
+                {OCASIONES.map((o) => {
+                  const isActive = form.ocasion === o.value;
+                  const label = o.label.replace(/^[^\s]+\s/, ""); // strip emoji
+                  return (
+                    <button
+                      key={o.value}
+                      type="button"
+                      onClick={() => set("ocasion", o.value)}
+                      className="btn-press px-3 py-2 text-xs font-medium border text-left"
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        background: isActive ? "#7C2D3C" : "white",
+                        borderColor: isActive ? "#7C2D3C" : "#E7E5E4",
+                        color: isActive ? "white" : "#57534E",
+                        transition: "background 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out)",
+                      }}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
               </div>
-            </div>
+            </FormField>
 
             {/* Fecha + Presupuesto */}
             <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Fecha requerida *
-                </label>
+              <FormField label="Fecha requerida *">
                 <input
                   type="date"
                   value={form.fecha}
                   onChange={(e) => set("fecha", e.target.value)}
                   min={new Date().toISOString().split("T")[0]}
-                  className="w-full min-w-0 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all [color-scheme:light]"
+                  className="w-full min-w-0 border border-stone-200 px-4 py-2.5 text-sm text-stone-900 bg-white focus:outline-none [color-scheme:light]"
+                  style={{ fontFamily: "'Inter', sans-serif", transition: "border-color 150ms var(--ease-out)" }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "#7C2D3C")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E7E5E4")}
                   required
                 />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Presupuesto aproximado
-                </label>
+              </FormField>
+              <FormField label="Presupuesto aproximado">
                 <select
                   value={form.presupuesto}
                   onChange={(e) => set("presupuesto", e.target.value)}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all bg-white"
+                  className="w-full border border-stone-200 px-4 py-2.5 text-sm bg-white focus:outline-none"
+                  style={{ fontFamily: "'Inter', sans-serif", transition: "border-color 150ms var(--ease-out)" }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "#7C2D3C")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E7E5E4")}
                 >
                   <option value="">Selecciona un rango</option>
                   {PRESUPUESTOS.map((p) => (
-                    <option key={p.value} value={p.value}>
-                      {p.label}
-                    </option>
+                    <option key={p.value} value={p.value}>{p.label}</option>
                   ))}
                 </select>
-              </div>
+              </FormField>
             </div>
 
             {/* Detalles */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                Describe tu arreglo ideal *
-              </label>
+            <FormField label="Describe tu arreglo ideal *">
               <textarea
                 value={form.detalles}
                 onChange={(e) => set("detalles", e.target.value)}
-                placeholder="Ej: Quiero un ramo de rosas rojas y blancas con listón dorado para una boda de 50 personas. Los colores del evento son blanco y dorado..."
+                placeholder="Ej: Quiero un ramo de rosas rojas y blancas con listón dorado para una boda de 50 personas..."
                 rows={4}
-                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all resize-none"
+                className="w-full border border-stone-200 px-4 py-2.5 text-sm bg-white focus:outline-none resize-none"
+                style={{ fontFamily: "'Inter', sans-serif", transition: "border-color 150ms var(--ease-out)" }}
+                onFocus={(e) => (e.currentTarget.style.borderColor = "#7C2D3C")}
+                onBlur={(e) => (e.currentTarget.style.borderColor = "#E7E5E4")}
                 required
               />
-            </div>
+            </FormField>
 
             <button
               type="submit"
               disabled={!isValid}
-              className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-100"
+              className="btn-press w-full py-3.5 text-sm font-medium flex items-center justify-center gap-2"
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                background: isValid ? "#25D366" : "#E7E5E4",
+                color: isValid ? "white" : "#A8A29E",
+                cursor: isValid ? "pointer" : "not-allowed",
+                transition: "background 200ms var(--ease-out), color 200ms var(--ease-out)",
+              }}
             >
               <WhatsAppSvg />
               Enviar solicitud por WhatsApp
             </button>
 
-            <p className="text-center text-xs text-gray-400">
+            <p
+              className="text-center text-xs"
+              style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
+            >
               Al enviar, serás redirigido a WhatsApp con los detalles de tu pedido.
             </p>
           </form>
         </div>
       </div>
+    </div>
+  );
+}
+
+function FormField({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <label
+        className="block text-xs font-medium mb-1.5 uppercase tracking-wider"
+        style={{ color: "#57534E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.06em" }}
+      >
+        {label}{" "}
+        {sub && <span style={{ color: "#A8A29E", textTransform: "none", letterSpacing: "normal" }}>{sub}</span>}
+      </label>
+      {children}
     </div>
   );
 }

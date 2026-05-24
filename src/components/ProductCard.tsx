@@ -23,59 +23,96 @@ export default function ProductCard({ product }: ProductCardProps) {
   const badgeColor = getBadgeColor(product.badge);
 
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
-      {/* Image container */}
-      <div className="relative overflow-hidden bg-pink-50 aspect-square">
+    <div
+      className="group bg-white flex flex-col overflow-hidden"
+      style={{
+        boxShadow: "0 1px 4px -1px rgba(0,0,0,0.08)",
+        transition: "box-shadow 250ms var(--ease-out), transform 250ms var(--ease-out)",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 28px -8px rgba(0,0,0,0.14)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow = "0 1px 4px -1px rgba(0,0,0,0.08)";
+      }}
+    >
+      {/* Image */}
+      <div className="relative overflow-hidden bg-stone-50 aspect-square">
         {product.badge && (
           <span
-            className={`absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-xs font-bold text-white shadow-sm ${badgeColor}`}
+            className={`absolute top-2.5 left-2.5 z-10 px-2 py-0.5 text-[10px] font-semibold text-white uppercase tracking-wider ${badgeColor}`}
+            style={{ fontFamily: "'Inter', sans-serif", letterSpacing: "0.1em" }}
           >
             {product.badge}
           </span>
         )}
 
-        {/* Category pill — bottom-right to avoid overlap with badge */}
-        <span className="absolute bottom-3 right-3 z-10 bg-white/90 backdrop-blur-sm text-gray-600 px-2 py-0.5 rounded-full text-xs font-medium shadow-sm">
+        {/* Category — bottom overlay */}
+        <span
+          className="absolute bottom-0 left-0 right-0 z-10 px-3 py-1.5 text-[10px] font-medium text-stone-600 bg-white/90 backdrop-blur-sm"
+          style={{ fontFamily: "'Inter', sans-serif", letterSpacing: "0.05em" }}
+        >
           {CATEGORY_LABELS[product.category]}
         </span>
 
         {imgError || !product.image ? (
-          <div className="w-full h-full flex flex-col items-center justify-center text-gray-300">
-            <span className="text-5xl mb-2">🌸</span>
-            <span className="text-xs">Sin imagen</span>
+          <div className="w-full h-full flex flex-col items-center justify-center text-stone-300">
+            <FlowerIcon />
+            <span className="text-xs mt-2" style={{ fontFamily: "'Inter', sans-serif" }}>Sin imagen</span>
           </div>
         ) : (
           <Image
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-cover"
             onError={() => setImgError(true)}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            style={{
+              transition: "transform 500ms var(--ease-out)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLImageElement).style.transform = "scale(1)";
+            }}
           />
         )}
       </div>
 
       {/* Info */}
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1 text-sm sm:text-base">
+      <div className="p-3.5 sm:p-4 flex flex-col flex-1">
+        <h3
+          className="font-medium text-stone-900 mb-1 line-clamp-1 text-sm sm:text-base leading-snug"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
           {product.name}
         </h3>
-        <p className="text-gray-400 text-xs sm:text-sm line-clamp-2 mb-3 flex-1">
+        <p
+          className="text-stone-400 text-xs sm:text-sm line-clamp-2 mb-4 flex-1 leading-relaxed"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
           {product.description}
         </p>
 
         <div className="flex items-center justify-between gap-2">
-          <span className="text-pink-600 font-bold text-lg">
+          <span
+            className="font-display text-xl font-medium text-stone-900"
+            style={{ letterSpacing: "-0.02em" }}
+          >
             ${product.price.toLocaleString("es-MX")}
           </span>
           <button
             onClick={handleAdd}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold transition-all ${
-              added
-                ? "bg-green-500 text-white scale-95"
-                : "bg-pink-500 hover:bg-pink-600 text-white hover:scale-105"
-            }`}
+            className="btn-press flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wide"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              letterSpacing: "0.02em",
+              background: added ? "#4A7C59" : "#7C2D3C",
+              color: "white",
+              transition: "background 200ms var(--ease-out)",
+            }}
           >
             {added ? (
               <>
@@ -96,27 +133,35 @@ export default function ProductCard({ product }: ProductCardProps) {
 }
 
 function getBadgeColor(badge?: string) {
-  if (!badge) return "bg-pink-500";
+  if (!badge) return "bg-brand";
   const b = badge.toLowerCase();
-  if (b.includes("nuevo") || b.includes("new")) return "bg-blue-500";
-  if (b.includes("boda") || b.includes("pedido")) return "bg-purple-500";
-  if (b.includes("temporada")) return "bg-amber-500";
-  if (b.includes("vendido")) return "bg-rose-500";
-  return "bg-pink-500";
+  if (b.includes("nuevo") || b.includes("new")) return "bg-stone-700";
+  if (b.includes("boda") || b.includes("pedido")) return "bg-brand";
+  if (b.includes("temporada")) return "bg-sage";
+  if (b.includes("vendido")) return "bg-stone-500";
+  return "bg-brand";
+}
+
+function FlowerIcon() {
+  return (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.5a4 4 0 014 4M12 6.5a4 4 0 00-4 4M12 6.5V3M8 10.5a4 4 0 004 4M8 10.5H4.5M16 10.5a4 4 0 01-4 4M16 10.5H19.5M12 14.5v3.5" />
+    </svg>
+  );
 }
 
 function PlusSvg() {
   return (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
     </svg>
   );
 }
 
 function CheckSvg() {
   return (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
     </svg>
   );
 }
