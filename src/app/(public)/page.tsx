@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
 import Testimonials from "@/components/Testimonials";
 import SeasonalBanner from "@/components/SeasonalBanner";
+import FAQ from "@/components/FAQ";
 import { Product, Category, CATEGORY_LABELS, CATEGORY_ICONS, CATEGORY_DESCRIPTIONS } from "@/types";
 
 export default function HomePage() {
@@ -533,6 +534,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── FAQ ──────────────────────────────────────────────────── */}
+      <FAQ />
 
       {/* ── All products ─────────────────────────────────────────── */}
       <section className="py-24" style={{ background: "#F5F3F1" }}>

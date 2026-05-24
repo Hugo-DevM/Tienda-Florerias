@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
       visible: true,
       featured: Boolean(body.featured),
       badge: body.badge || "",
+      occasions: body.occasions ?? [],
       createdAt: new Date().toISOString(),
     };
 

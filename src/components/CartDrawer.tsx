@@ -26,10 +26,28 @@ export default function CartDrawer() {
     return encodeURIComponent(lines.join("\n"));
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     const message = buildWhatsAppMessage();
     if (!message) return;
+
+    // Log order in background (fire-and-forget, don't block UX)
+    fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        items: items.map((i) => ({
+          productId: i.product.id,
+          productName: i.product.name,
+          price: i.product.price,
+          quantity: i.quantity,
+        })),
+        total,
+      }),
+    }).catch(() => {}); // silent — non-critical
+
     window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
+    clearCart();
+    closeCart();
   };
 
   const itemCount = items.reduce((s, i) => s + i.quantity, 0);

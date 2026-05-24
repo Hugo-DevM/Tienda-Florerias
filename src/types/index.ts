@@ -58,3 +58,44 @@ export interface CartItem {
   product: Product;
   quantity: number;
 }
+
+// ── Orders ──────────────────────────────────────────────────────────────────
+
+export type OrderStatus =
+  | "pending"
+  | "confirmed"
+  | "in_delivery"
+  | "delivered"
+  | "cancelled";
+
+export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+  pending: "Pendiente",
+  confirmed: "Confirmado",
+  in_delivery: "En camino",
+  delivered: "Entregado",
+  cancelled: "Cancelado",
+};
+
+export const ORDER_STATUS_COLORS: Record<OrderStatus, { bg: string; text: string; border: string }> = {
+  pending:     { bg: "#FEF9EC", text: "#92400E", border: "#FDE68A" },
+  confirmed:   { bg: "#EBF4EF", text: "#1A5736", border: "#BBD9C5" },
+  in_delivery: { bg: "#EFF6FF", text: "#1E40AF", border: "#BFDBFE" },
+  delivered:   { bg: "#F0FDF4", text: "#166534", border: "#BBF7D0" },
+  cancelled:   { bg: "#FFF5F5", text: "#991B1B", border: "#FECACA" },
+};
+
+export interface OrderItem {
+  productId: string;
+  productName: string;
+  price: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  items: OrderItem[];
+  total: number;
+  status: OrderStatus;
+  notes?: string;
+  createdAt: string;
+}
