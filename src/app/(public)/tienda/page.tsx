@@ -5,15 +5,19 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
-import { Product, Category } from "@/types";
+import { Product, Category, Occasion, OCCASION_LABELS } from "@/types";
+
+const OCCASIONS: Occasion[] = ["cumpleanos", "aniversario", "boda", "condolencias", "amor", "graduacion", "decoracion"];
 
 function TiendaContent() {
   const searchParams = useSearchParams();
   const initialCat = (searchParams.get("cat") as Category | null) ?? "todos";
+  const initialOcc = (searchParams.get("ocasion") as Occasion | null) ?? null;
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState<Category | "todos">(initialCat);
+  const [occasion, setOccasion] = useState<Occasion | null>(initialOcc);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -34,6 +38,9 @@ function TiendaContent() {
     if (category !== "todos") {
       result = result.filter((p) => p.category === category);
     }
+    if (occasion) {
+      result = result.filter((p) => p.occasions?.includes(occasion));
+    }
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter(
@@ -43,7 +50,7 @@ function TiendaContent() {
       );
     }
     return result;
-  }, [visible, category, search]);
+  }, [visible, category, occasion, search]);
 
   const counts = useMemo(() => {
     const cats: Array<Category | "todos"> = [
@@ -61,6 +68,19 @@ function TiendaContent() {
       ])
     ) as Record<Category | "todos", number>;
   }, [visible]);
+
+  const handleOccasion = (occ: Occasion) => {
+    setOccasion((prev) => (prev === occ ? null : occ));
+    setSearch("");
+  };
+
+  const clearFilters = () => {
+    setCategory("todos");
+    setOccasion(null);
+    setSearch("");
+  };
+
+  const hasActiveFilter = category !== "todos" || occasion !== null || search.trim() !== "";
 
   return (
     <div className="min-h-screen" style={{ background: "#FAF9F7" }}>
@@ -123,6 +143,50 @@ function TiendaContent() {
               counts={counts}
             />
           </div>
+
+          {/* Occasion filter */}
+          <div className="mt-3 flex flex-wrap gap-1.5 items-center">
+            <span
+              className="text-[10px] uppercase tracking-wider mr-1"
+              style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
+            >
+              Ocasión:
+            </span>
+            {OCCASIONS.map((occ) => {
+              const isActive = occasion === occ;
+              return (
+                <button
+                  key={occ}
+                  onClick={() => handleOccasion(occ)}
+                  className="btn-press px-3 py-1 text-xs font-medium border"
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    background: isActive ? "#FBF5F6" : "transparent",
+                    borderColor: isActive ? "#7C2D3C" : "#E7E5E4",
+                    color: isActive ? "#7C2D3C" : "#78716C",
+                    transition: "background 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out)",
+                  }}
+                >
+                  {OCCASION_LABELS[occ]}
+                </button>
+              );
+            })}
+            {hasActiveFilter && (
+              <button
+                onClick={clearFilters}
+                className="btn-press px-3 py-1 text-xs font-medium ml-1"
+                style={{
+                  color: "#A8A29E",
+                  fontFamily: "'Inter', sans-serif",
+                  transition: "color 150ms var(--ease-out)",
+                }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#57534E")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#A8A29E")}
+              >
+                Limpiar filtros ×
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -148,6 +212,7 @@ function TiendaContent() {
               style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
             >
               {filtered.length} resultado{filtered.length !== 1 ? "s" : ""}
+              {occasion && ` · ${OCCASION_LABELS[occasion]}`}
               {search && ` para "${search}"`}
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -160,10 +225,7 @@ function TiendaContent() {
           </>
         ) : (
           <div className="text-center py-24">
-            <div
-              className="w-16 h-px mx-auto mb-8"
-              style={{ background: "#E7E5E4" }}
-            />
+            <div className="w-16 h-px mx-auto mb-8" style={{ background: "#E7E5E4" }} />
             <h3
               className="font-display font-light text-stone-700 text-2xl mb-2"
               style={{ letterSpacing: "-0.01em" }}
@@ -174,10 +236,14 @@ function TiendaContent() {
               className="text-sm mb-8"
               style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
             >
-              {search ? `No hay resultados para "${search}"` : "Esta categoría no tiene productos disponibles"}
+              {occasion
+                ? `No hay productos etiquetados para "${OCCASION_LABELS[occasion]}"`
+                : search
+                ? `No hay resultados para "${search}"`
+                : "Esta categoría no tiene productos disponibles"}
             </p>
             <button
-              onClick={() => { setCategory("todos"); setSearch(""); }}
+              onClick={clearFilters}
               className="btn-press inline-flex items-center gap-2 border border-stone-300 text-stone-700 px-6 py-2.5 text-sm font-medium hover:border-brand hover:text-brand"
               style={{
                 fontFamily: "'Inter', sans-serif",
@@ -197,10 +263,12 @@ export default function TiendaPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center text-gray-400">
-            <span className="text-5xl block mb-3 animate-pulse">🌸</span>
-            <p>Cargando tienda...</p>
+        <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAF9F7" }}>
+          <div className="text-center">
+            <div className="w-8 h-px mx-auto mb-6" style={{ background: "#E7E5E4" }} />
+            <p className="text-sm animate-pulse" style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}>
+              Cargando tienda...
+            </p>
           </div>
         </div>
       }

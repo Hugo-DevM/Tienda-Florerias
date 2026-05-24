@@ -21,6 +21,25 @@ export const CATEGORY_ICONS: Record<Category, string> = {
   sobre_pedido: "✨",
 };
 
+export type Occasion =
+  | "cumpleanos"
+  | "aniversario"
+  | "boda"
+  | "condolencias"
+  | "amor"
+  | "graduacion"
+  | "decoracion";
+
+export const OCCASION_LABELS: Record<Occasion, string> = {
+  cumpleanos: "Cumpleaños",
+  aniversario: "Aniversario",
+  boda: "Boda",
+  condolencias: "Condolencias",
+  amor: "Amor & Romance",
+  graduacion: "Graduación",
+  decoracion: "Decoración",
+};
+
 export interface Product {
   id: string;
   name: string;
@@ -31,6 +50,7 @@ export interface Product {
   visible: boolean;
   featured?: boolean;
   badge?: string;
+  occasions?: Occasion[];
   createdAt: string;
 }
 

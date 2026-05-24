@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { Product, Category, CATEGORY_LABELS } from "@/types";
+import { Product, Category, CATEGORY_LABELS, Occasion, OCCASION_LABELS } from "@/types";
 
 interface Props {
   initial?: Partial<Product>;
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const CATEGORIES: Category[] = ["siempre_disponible", "temporada", "sobre_pedido"];
+const OCCASIONS: Occasion[] = ["cumpleanos", "aniversario", "boda", "condolencias", "amor", "graduacion", "decoracion"];
 
 const inputStyle = {
   fontFamily: "'Inter', sans-serif",
@@ -28,6 +29,7 @@ export default function ProductForm({ initial = {}, onSave, onCancel, isEditing 
     badge: initial.badge ?? "",
     featured: initial.featured ?? false,
     image: initial.image ?? "",
+    occasions: initial.occasions ?? ([] as Occasion[]),
   });
 
   const [uploading, setUploading] = useState(false);
@@ -247,6 +249,40 @@ export default function ProductForm({ initial = {}, onSave, onCancel, isEditing 
           onFocus={(e) => (e.currentTarget.style.borderColor = "#7C2D3C")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "#E7E5E4")}
         />
+      </div>
+
+      {/* Occasions */}
+      <div>
+        <FieldLabel sub="(opcional)">Ocasiones</FieldLabel>
+        <div className="flex flex-wrap gap-2 mt-1">
+          {OCCASIONS.map((occ) => {
+            const active = form.occasions.includes(occ);
+            return (
+              <button
+                key={occ}
+                type="button"
+                onClick={() =>
+                  setForm((p) => ({
+                    ...p,
+                    occasions: active
+                      ? p.occasions.filter((o) => o !== occ)
+                      : [...p.occasions, occ],
+                  }))
+                }
+                className="btn-press px-3 py-1.5 text-xs font-medium border"
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  background: active ? "#7C2D3C" : "white",
+                  borderColor: active ? "#7C2D3C" : "#E7E5E4",
+                  color: active ? "white" : "#78716C",
+                  transition: "background 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out)",
+                }}
+              >
+                {OCCASION_LABELS[occ]}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Featured toggle */}
