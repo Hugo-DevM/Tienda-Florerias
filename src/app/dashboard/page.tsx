@@ -20,11 +20,9 @@ export default function DashboardPage() {
   const [filterCat, setFilterCat] = useState<string>("todos");
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
 
-  // Auth guard
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const auth = sessionStorage.getItem("floreria_auth");
-      if (auth !== "1") {
+      if (sessionStorage.getItem("floreria_auth") !== "1") {
         router.replace("/dashboard/login");
       }
     }
@@ -63,7 +61,7 @@ export default function DashboardPage() {
     if (!res.ok) throw new Error("Error al crear producto");
     await fetchProducts();
     setView("list");
-    showToast("✅ Producto creado exitosamente");
+    showToast("Producto creado exitosamente");
   };
 
   const handleUpdate = async (data: Partial<Product>) => {
@@ -77,7 +75,7 @@ export default function DashboardPage() {
     await fetchProducts();
     setView("list");
     setEditTarget(null);
-    showToast("✏️ Producto actualizado");
+    showToast("Producto actualizado");
   };
 
   const handleToggleVisible = async (product: Product) => {
@@ -90,13 +88,9 @@ export default function DashboardPage() {
       });
       if (!res.ok) throw new Error();
       setProducts((prev) =>
-        prev.map((p) =>
-          p.id === product.id ? { ...p, visible: !p.visible } : p
-        )
+        prev.map((p) => p.id === product.id ? { ...p, visible: !p.visible } : p)
       );
-      showToast(
-        product.visible ? "🚫 Producto ocultado" : "👁️ Producto visible"
-      );
+      showToast(product.visible ? "Producto ocultado" : "Producto visible");
     } catch {
       showToast("Error al actualizar visibilidad");
     } finally {
@@ -104,9 +98,7 @@ export default function DashboardPage() {
     }
   };
 
-  const handleDelete = (product: Product) => {
-    setDeleteTarget(product);
-  };
+  const handleDelete = (product: Product) => setDeleteTarget(product);
 
   const confirmDelete = async () => {
     if (!deleteTarget) return;
@@ -121,7 +113,7 @@ export default function DashboardPage() {
       });
       if (!res.ok) throw new Error();
       await fetchProducts();
-      showToast("🗑️ Producto eliminado");
+      showToast("Producto eliminado");
     } catch {
       showToast("Error al eliminar producto");
     } finally {
@@ -135,9 +127,7 @@ export default function DashboardPage() {
   };
 
   const filteredProducts =
-    filterCat === "todos"
-      ? products
-      : products.filter((p) => p.category === filterCat);
+    filterCat === "todos" ? products : products.filter((p) => p.category === filterCat);
 
   const stats = {
     total: products.length,
@@ -147,47 +137,70 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ background: "#F5F3F1" }}>
+
       {/* Toast */}
       {toast && (
-        <div className="fixed top-4 right-4 z-50 bg-gray-900 text-white px-5 py-3 rounded-2xl shadow-xl text-sm font-medium animate-slideIn">
+        <div
+          className="fixed top-5 right-5 z-50 px-5 py-3 text-sm font-medium"
+          style={{
+            background: "#1A1614",
+            color: "#FAF9F7",
+            fontFamily: "'Inter', sans-serif",
+            boxShadow: "0 4px 20px -4px rgba(0,0,0,0.3)",
+            animation: "fadeUp 200ms var(--ease-out) both",
+          }}
+        >
           {toast}
         </div>
       )}
 
-      {/* Delete confirmation modal */}
+      {/* Delete modal */}
       {deleteTarget && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 animate-slideIn">
-            <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-red-50 mx-auto mb-4">
-              <svg className="w-7 h-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-            </div>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(26,22,20,0.5)", backdropFilter: "blur(4px)" }}
+        >
+          <div
+            className="bg-white w-full max-w-sm p-7"
+            style={{
+              boxShadow: "0 8px 40px -8px rgba(0,0,0,0.2)",
+              animation: "fadeUp 200ms var(--ease-out) both",
+            }}
+          >
+            <div className="w-8 h-px mb-6" style={{ background: "#DC2626" }} />
             <h3
-              className="text-lg font-bold text-gray-900 text-center mb-1"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+              className="font-display font-light text-stone-900 text-xl mb-2"
+              style={{ letterSpacing: "-0.01em" }}
             >
               ¿Eliminar producto?
             </h3>
-            <p className="text-sm text-gray-500 text-center mb-1">
-              <span className="font-semibold text-gray-700">&ldquo;{deleteTarget.name}&rdquo;</span>
+            <p
+              className="text-sm mb-1"
+              style={{ color: "#57534E", fontFamily: "'Inter', sans-serif" }}
+            >
+              &ldquo;{deleteTarget.name}&rdquo;
             </p>
-            <p className="text-xs text-gray-400 text-center mb-6">
+            <p
+              className="text-xs mb-7"
+              style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
+            >
               Esta acción no se puede deshacer.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 transition-colors"
+                className="btn-press flex-1 py-2.5 border border-stone-200 text-stone-600 text-sm font-medium hover:border-stone-400"
+                style={{ fontFamily: "'Inter', sans-serif", transition: "border-color 150ms var(--ease-out)" }}
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmDelete}
-                className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-sm transition-colors"
+                className="btn-press flex-1 py-2.5 text-white text-sm font-medium"
+                style={{ background: "#DC2626", fontFamily: "'Inter', sans-serif" }}
               >
-                Sí, eliminar
+                Eliminar
               </button>
             </div>
           </div>
@@ -195,143 +208,179 @@ export default function DashboardPage() {
       )}
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">🌸</span>
-            <div>
-              <h1
-                className="text-xl font-bold text-gray-900"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+      <header
+        className="bg-white sticky top-0 z-30"
+        style={{ borderBottom: "1px solid #E7E5E4" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
+          <div>
+            <span
+              className="font-display font-medium text-stone-900"
+              style={{ fontSize: "1.25rem", letterSpacing: "-0.02em" }}
+            >
+              Flo<span style={{ color: "#7C2D3C" }}>ría</span>
+              <span
+                className="ml-2 text-xs font-sans font-normal uppercase tracking-widest"
+                style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.12em" }}
               >
-                Panel de Administración
-              </h1>
-              <p className="text-xs text-gray-400 hidden sm:block">
-                Gestiona tu catálogo de flores
-              </p>
-            </div>
+                Admin
+              </span>
+            </span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <a
               href="/"
               target="_blank"
-              className="text-sm text-gray-500 hover:text-pink-500 transition-colors hidden sm:flex items-center gap-1"
+              className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-stone-400 hover:text-brand"
+              style={{ fontFamily: "'Inter', sans-serif", transition: "color 150ms var(--ease-out)" }}
             >
-              <span>🛍️</span> Ver tienda
+              Ver tienda
+              <span>→</span>
             </a>
             <button
               onClick={handleLogout}
-              className="text-sm text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-red-50"
+              className="btn-press text-xs font-medium text-stone-400 hover:text-stone-700 px-3 py-1.5 border border-stone-200 hover:border-stone-400"
+              style={{ fontFamily: "'Inter', sans-serif", transition: "color 150ms var(--ease-out), border-color 150ms var(--ease-out)" }}
             >
-              <span>🚪</span>
-              <span className="hidden sm:inline">Salir</span>
+              Cerrar sesión
             </button>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Modal overlay for forms */}
-        {(view === "add" || view === "edit") && (
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 flex items-center justify-center p-4 animate-fadeIn">
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 sm:p-8 animate-slideIn">
-              <div className="flex items-center justify-between mb-6">
-                <h2
-                  className="text-xl font-bold text-gray-900"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  {view === "add" ? "✨ Nuevo Producto" : "✏️ Editar Producto"}
-                </h2>
-                <button
-                  onClick={() => {
-                    setView("list");
-                    setEditTarget(null);
-                  }}
-                  className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  <XSvg />
-                </button>
-              </div>
+      {/* Form modal */}
+      {(view === "add" || view === "edit") && (
+        <div
+          className="fixed inset-0 z-40 flex items-center justify-center p-4"
+          style={{ background: "rgba(26,22,20,0.5)", backdropFilter: "blur(4px)" }}
+        >
+          <div
+            className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto"
+            style={{
+              boxShadow: "0 8px 40px -8px rgba(0,0,0,0.2)",
+              animation: "fadeUp 220ms var(--ease-out) both",
+            }}
+          >
+            <div
+              className="flex items-center justify-between px-7 py-5"
+              style={{ borderBottom: "1px solid #E7E5E4" }}
+            >
+              <h2
+                className="font-display font-light text-stone-900"
+                style={{ fontSize: "1.25rem", letterSpacing: "-0.02em" }}
+              >
+                {view === "add" ? "Nuevo producto" : "Editar producto"}
+              </h2>
+              <button
+                onClick={() => { setView("list"); setEditTarget(null); }}
+                className="btn-press p-1.5 text-stone-400 hover:text-stone-700"
+                style={{ transition: "color 150ms var(--ease-out)" }}
+              >
+                <XSvg />
+              </button>
+            </div>
+            <div className="px-7 py-6">
               <ProductForm
                 initial={editTarget ?? {}}
                 onSave={view === "add" ? handleCreate : handleUpdate}
-                onCancel={() => {
-                  setView("list");
-                  setEditTarget(null);
-                }}
+                onCancel={() => { setView("list"); setEditTarget(null); }}
                 isEditing={view === "edit"}
               />
             </div>
           </div>
-        )}
+        </div>
+      )}
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
 
         {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
-            { label: "Total", value: stats.total, emoji: "📦", color: "blue" },
-            { label: "Visibles", value: stats.visible, emoji: "👁️", color: "green" },
-            { label: "Ocultos", value: stats.hidden, emoji: "🚫", color: "gray" },
-            { label: "Destacados", value: stats.featured, emoji: "⭐", color: "yellow" },
+            { label: "Total", value: stats.total },
+            { label: "Visibles", value: stats.visible },
+            { label: "Ocultos", value: stats.hidden },
+            { label: "Destacados", value: stats.featured },
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-white rounded-2xl p-4 sm:p-5 border border-gray-100 shadow-sm"
+              className="bg-white p-5"
+              style={{ boxShadow: "0 1px 4px -1px rgba(0,0,0,0.06)" }}
             >
-              <span className="text-2xl block mb-1">{stat.emoji}</span>
-              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-              <p className="text-gray-400 text-sm">{stat.label}</p>
+              <p
+                className="font-display font-light text-stone-900"
+                style={{ fontSize: "2rem", letterSpacing: "-0.03em", lineHeight: 1 }}
+              >
+                {stat.value}
+              </p>
+              <p
+                className="text-xs mt-1.5 uppercase tracking-wider"
+                style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.1em" }}
+              >
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
 
         {/* Toolbar */}
-        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between mb-6">
-          <div className="flex flex-wrap gap-2">
-            {["todos", "siempre_disponible", "temporada", "sobre_pedido"].map(
-              (cat) => {
-                const label =
-                  cat === "todos"
-                    ? "Todos"
-                    : CATEGORY_LABELS[cat as keyof typeof CATEGORY_LABELS];
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setFilterCat(cat)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors border ${
-                      filterCat === cat
-                        ? "bg-pink-500 border-pink-500 text-white"
-                        : "bg-white border-gray-200 text-gray-600 hover:border-pink-300"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                );
-              }
-            )}
+        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between mb-5">
+          <div className="flex flex-wrap gap-1.5">
+            {["todos", "siempre_disponible", "temporada", "sobre_pedido"].map((cat) => {
+              const label = cat === "todos" ? "Todos" : CATEGORY_LABELS[cat as keyof typeof CATEGORY_LABELS];
+              const isActive = filterCat === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setFilterCat(cat)}
+                  className="btn-press px-3.5 py-1.5 text-xs font-medium border"
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    background: isActive ? "#7C2D3C" : "white",
+                    borderColor: isActive ? "#7C2D3C" : "#E7E5E4",
+                    color: isActive ? "white" : "#57534E",
+                    transition: "background 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out)",
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
 
           <button
             onClick={() => setView("add")}
-            className="flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white px-5 py-2.5 rounded-xl font-semibold transition-colors shadow-sm whitespace-nowrap"
+            className="btn-press flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white whitespace-nowrap"
+            style={{
+              background: "#7C2D3C",
+              fontFamily: "'Inter', sans-serif",
+              transition: "opacity 150ms var(--ease-out)",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.88")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
           >
             <PlusSvg />
-            Agregar Producto
+            Agregar producto
           </button>
         </div>
 
-        {/* Products list */}
+        {/* List */}
         {loading ? (
-          <div className="bg-white rounded-2xl p-12 text-center text-gray-400 border border-gray-100">
-            <span className="text-4xl block mb-3 animate-pulse">🌸</span>
-            <p>Cargando productos...</p>
+          <div
+            className="bg-white p-14 text-center"
+            style={{ boxShadow: "0 1px 4px -1px rgba(0,0,0,0.06)" }}
+          >
+            <div className="w-8 h-px mx-auto mb-6" style={{ background: "#E7E5E4" }} />
+            <p
+              className="text-sm animate-pulse"
+              style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif" }}
+            >
+              Cargando productos...
+            </p>
           </div>
         ) : (
           <ProductList
             products={filteredProducts}
-            onEdit={(p) => {
-              setEditTarget(p);
-              setView("edit");
-            }}
+            onEdit={(p) => { setEditTarget(p); setView("edit"); }}
             onToggleVisible={handleToggleVisible}
             onDelete={handleDelete}
             loading={mutating}
@@ -344,16 +393,16 @@ export default function DashboardPage() {
 
 function XSvg() {
   return (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
   );
 }
 
 function PlusSvg() {
   return (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
     </svg>
   );
 }
