@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
+import Testimonials from "@/components/Testimonials";
+import SeasonalBanner from "@/components/SeasonalBanner";
 import { Product, Category, CATEGORY_LABELS, CATEGORY_ICONS, CATEGORY_DESCRIPTIONS } from "@/types";
 
 export default function HomePage() {
@@ -20,6 +22,7 @@ export default function HomePage() {
 
   const visible = products.filter((p) => p.visible);
   const featured = visible.filter((p) => p.featured);
+  const temporada = visible.filter((p) => p.category === "temporada");
 
   const categories: Category[] = [
     "siempre_disponible",
@@ -180,6 +183,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Seasonal banner ─────────────────────────────────────── */}
+      <SeasonalBanner temporadaProducts={temporada} />
+
       {/* ── Featured products ────────────────────────────────────── */}
       <section className="py-24" style={{ background: "#FAF9F7" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -315,6 +321,69 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Testimonials ─────────────────────────────────────────── */}
+      <Testimonials />
+
+      {/* ── Custom order CTA ─────────────────────────────────────── */}
+      <section style={{ background: "#1A1614" }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+          <div className="max-w-2xl">
+            <div className="w-8 h-px mb-8" style={{ background: "#7C2D3C" }} />
+            <h2
+              className="font-display font-light text-white leading-tight mb-4"
+              style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em" }}
+            >
+              ¿Tienes algo{" "}
+              <em style={{ fontStyle: "italic" }}>especial en mente?</em>
+            </h2>
+            <p
+              className="leading-relaxed mb-10"
+              style={{ color: "rgba(255,255,255,0.55)", fontFamily: "'Inter', sans-serif", fontSize: "0.9375rem" }}
+            >
+              Diseñamos arreglos a medida para bodas, XV años, eventos corporativos y cualquier ocasión que lo merezca.
+              Cuéntanos tu visión y la hacemos realidad.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/contacto"
+                className="btn-press inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium"
+                style={{
+                  background: "#7C2D3C",
+                  color: "white",
+                  fontFamily: "'Inter', sans-serif",
+                  transition: "opacity 150ms var(--ease-out)",
+                }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.88")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
+              >
+                Solicitar arreglo personalizado
+                <span>→</span>
+              </Link>
+              <Link
+                href="/tienda"
+                className="btn-press inline-flex items-center gap-2 px-7 py-3.5 text-sm font-medium border"
+                style={{
+                  borderColor: "rgba(255,255,255,0.15)",
+                  color: "rgba(255,255,255,0.65)",
+                  fontFamily: "'Inter', sans-serif",
+                  transition: "border-color 150ms var(--ease-out), color 150ms var(--ease-out)",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.4)";
+                  (e.currentTarget as HTMLElement).style.color = "white";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)";
+                  (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)";
+                }}
+              >
+                Ver catálogo
+              </Link>
             </div>
           </div>
         </div>
