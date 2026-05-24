@@ -9,7 +9,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Already authenticated?
   useEffect(() => {
     if (sessionStorage.getItem("floreria_auth") === "1") {
       router.replace("/dashboard");
@@ -45,41 +44,70 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 flex items-center justify-center px-4">
+    <div
+      className="min-h-screen flex items-center justify-center px-6"
+      style={{ background: "#FAF9F7" }}
+    >
       <div className="w-full max-w-sm">
-        {/* Card */}
-        <div className="bg-white rounded-3xl shadow-xl shadow-pink-100 p-8">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <span className="text-5xl block mb-3">🌸</span>
-            <h1
-              className="text-2xl font-bold text-gray-900"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Flo<span className="text-pink-500">ría</span> Admin
-            </h1>
-            <p className="text-gray-400 text-sm mt-1">
-              Acceso al panel de administración
-            </p>
-          </div>
 
+        {/* Logo */}
+        <div className="text-center mb-10">
+          <span
+            className="font-display font-medium text-stone-900 block mb-2"
+            style={{ fontSize: "2rem", letterSpacing: "-0.03em" }}
+          >
+            Flo<span style={{ color: "#7C2D3C" }}>ría</span>
+          </span>
+          <div className="w-8 h-px mx-auto mb-3" style={{ background: "#D6D3D1" }} />
+          <p
+            className="text-xs uppercase tracking-widest"
+            style={{ color: "#A8A29E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.15em" }}
+          >
+            Panel de administración
+          </p>
+        </div>
+
+        {/* Form card */}
+        <div
+          className="bg-white p-8"
+          style={{ boxShadow: "0 2px 20px -4px rgba(0,0,0,0.08)" }}
+        >
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
-                <span>⚠️</span> {error}
+              <div
+                className="px-4 py-3 text-sm flex items-center gap-2"
+                style={{
+                  background: "#FFF5F5",
+                  border: "1px solid #FECACA",
+                  color: "#991B1B",
+                  fontFamily: "'Inter', sans-serif",
+                }}
+              >
+                <span style={{ fontSize: "0.75rem" }}>—</span>
+                {error}
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+              <label
+                className="block text-xs font-medium uppercase tracking-wider mb-2"
+                style={{ color: "#57534E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.08em" }}
+              >
                 Contraseña
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Ingresa la contraseña"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition-all"
+                placeholder="••••••••"
+                className="w-full border border-stone-200 px-4 py-3 text-sm bg-white focus:outline-none"
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  color: "#1C1917",
+                  transition: "border-color 150ms var(--ease-out)",
+                }}
+                onFocus={(e) => (e.currentTarget.style.borderColor = "#7C2D3C")}
+                onBlur={(e) => (e.currentTarget.style.borderColor = "#E7E5E4")}
                 autoFocus
                 required
               />
@@ -88,23 +116,47 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || !password}
-              className="w-full bg-pink-500 hover:bg-pink-600 disabled:bg-pink-200 text-white py-3 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+              className="btn-press w-full py-3 text-sm font-medium flex items-center justify-center gap-2"
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                background: loading || !password ? "#E7E5E4" : "#7C2D3C",
+                color: loading || !password ? "#A8A29E" : "white",
+                cursor: loading || !password ? "not-allowed" : "pointer",
+                transition: "background 200ms var(--ease-out), color 200ms var(--ease-out)",
+              }}
             >
               {loading ? (
                 <>
-                  <span className="animate-spin">⏳</span> Verificando...
+                  <Spinner />
+                  Verificando...
                 </>
               ) : (
-                <>🔐 Ingresar</>
+                "Ingresar"
               )}
             </button>
           </form>
         </div>
 
-        <p className="text-center text-gray-400 text-xs mt-6">
-          Panel privado · Solo uso interno
+        <p
+          className="text-center text-xs mt-6"
+          style={{ color: "#D6D3D1", fontFamily: "'Inter', sans-serif" }}
+        >
+          Acceso privado · Solo uso interno
         </p>
       </div>
     </div>
+  );
+}
+
+function Spinner() {
+  return (
+    <svg
+      className="w-4 h-4 animate-spin"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+    </svg>
   );
 }
